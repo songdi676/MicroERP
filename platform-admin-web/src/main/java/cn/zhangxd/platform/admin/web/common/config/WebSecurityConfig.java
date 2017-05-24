@@ -1,3 +1,4 @@
+
 package cn.zhangxd.platform.admin.web.common.config;
 
 import java.util.Arrays;
@@ -22,31 +23,29 @@ import cn.zhangxd.platform.common.web.config.AbstractWebSecurityConfig;
  * @author zhangxd
  */
 @Configuration
-public class WebSecurityConfig extends AbstractWebSecurityConfig {
+public class WebSecurityConfig extends AbstractWebSecurityConfig
+{
 
     @Override
-    protected void configure(HttpSecurity security) throws Exception {
-        security
-            .authorizeRequests()
-            .antMatchers(HttpMethod.POST, "/auth/token").permitAll()
-            .requestMatchers(CorsUtils::isPreFlightRequest).permitAll();//就是这一行啦  ;
-        super.configure(security);
+    protected void configure( HttpSecurity security ) throws Exception
+    {
+        security.authorizeRequests()
+                .antMatchers( HttpMethod.POST, "/auth/token" ).permitAll()
+                .requestMatchers( CorsUtils::isPreFlightRequest ).permitAll();// 就是这一行啦
+                                                                              // ;
+        super.configure( security );
     }
+
     @Bean
-    CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://10.61.16.103:8080"));
-        configuration.setAllowedMethods(Arrays.asList("GET","POST","OPTIONS"));//Allow: GET, HEAD, POST, PUT, DELETE, TRACE, OPTIONS, PATCH
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
-        return source;
-    }
-    @Bean
-    public WebMvcConfigurer corsConfigurer() {
-        return new WebMvcConfigurerAdapter() {
+    public WebMvcConfigurer corsConfigurer()
+    {
+        return new WebMvcConfigurerAdapter()
+        {
             @Override
-            public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**").allowedOrigins("http://10.61.16.103:8080");
+            public void addCorsMappings( CorsRegistry registry )
+            {
+                registry.addMapping( "/**" ).allowedOrigins(
+                        "http://10.61.16.103:8080" );
             }
         };
     }
