@@ -1,24 +1,27 @@
 package cn.zhangxd.platform.system.provider.serviceimpl;
 
-import cn.zhangxd.platform.system.provider.mapper.SysMenuMapper;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import cn.zhangxd.platform.common.api.Paging;
 import cn.zhangxd.platform.common.utils.StringHelper;
 import cn.zhangxd.platform.system.api.entity.SysMenu;
 import cn.zhangxd.platform.system.api.entity.SysRole;
 import cn.zhangxd.platform.system.api.entity.SysUser;
 import cn.zhangxd.platform.system.api.service.ISystemService;
+import cn.zhangxd.platform.system.provider.mapper.SysMenuMapper;
 import cn.zhangxd.platform.system.provider.mapper.SysRoleMapper;
 import cn.zhangxd.platform.system.provider.mapper.SysUserMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 
 /**
  * 系统管理，安全相关实体的管理类,包括用户、角色、菜单.
@@ -287,6 +290,7 @@ public class SystemService implements ISystemService {
     }
 
     @Override
+    @Cacheable(value="getRoleById")
     public SysRole getRoleById(String roleId) {
 
         SysRole role = sysRoleMapper.get(roleId);
